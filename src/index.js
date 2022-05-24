@@ -1,5 +1,9 @@
 const express = require('express')
 const app = express()
+var morgan = require('morgan')
+var uuid = require('node-uuid')
+
+
 
 let notes = [
   {
@@ -22,6 +26,20 @@ let notes = [
   }
 ]
 
+morgan.token('id', function getId (req) {
+  return req.id
+})
+
+function assignId (req, res, next) {
+  req.id = uuid.v4()
+  next()
+}
+
+app.use(assignId)
+app.use(morgan(':id :method :url :response-time'))
+
+
+
 const requestLogger = (request, response, next) => {
   console.log('Method:', request.method)
   console.log('Path:  ', request.path)
@@ -34,8 +52,22 @@ app.use(express.json())
 
 app.use(requestLogger)
 
-app.get('/', (req, res) => {
-  res.send('<h1>Hello World!</h1>')
+var requestTime = function (req, res, next) {
+  req.requestTime = new Date();
+  next();
+};
+
+app.use(requestTime);
+app.use(morgan('combined'))
+
+app.get('/', function (req, res) {
+  res.send('hello, world!')
+})
+
+app.get('/info', (req, res) => {
+  var id = generateId()
+  
+  res.send('phone has info for '+id+' people <br><br>'+' el tiempo es '+ req.requestTime)
 })
 
 const generateId = () => {
@@ -45,7 +77,7 @@ const generateId = () => {
   return maxId + 1
 }
 
-app.post('/api/notes', (request, response) => {
+app.post('/api/persons', (request, response) => {
   const body = request.body
 
   if (!body.content) {
@@ -64,20 +96,22 @@ app.post('/api/notes', (request, response) => {
   notes = notes.concat(note)
 
   response.json(note)
-})
+}) 
 
-app.get('/api/notes', (req, res) => {
+app.get('/api/persons', (req, res) => {
+  
+  
   res.json(notes)
 })
 
-app.delete('/api/notes/:id', (request, response) => { 
+app.delete('/api/persons/:id', (request, response) => { 
   const id = Number(request.params.id)
   notes = notes.filter(note => note.id !== id)
 
   response.status(204).end()
 })
 
-app.get('/api/notes/:id', (request, response) => {
+app.get('/api/persons/:id', (request, response) => {
   const id = Number(request.params.id)
   const note = notes.find(note => note.id === id)
 
