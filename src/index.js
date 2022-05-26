@@ -1,9 +1,6 @@
 const express = require('express')
 const app = express()
 var morgan = require('morgan')
-var uuid = require('node-uuid')
-
-
 
 let notes = [
   {
@@ -26,39 +23,13 @@ let notes = [
   }
 ]
 
-morgan.token('id', function getId (req) {
-  return req.id
+morgan(function (tokens, req, res) {
+  return 'nikito '
 })
 
-function assignId (req, res, next) {
-  req.id = uuid.v4()
-  next()
-}
-
-app.use(assignId)
-app.use(morgan(':id :method :url :response-time'))
-
-
-
-const requestLogger = (request, response, next) => {
-  console.log('Method:', request.method)
-  console.log('Path:  ', request.path)
-  console.log('Body:  ', request.body)
-  console.log('---')
-  next()
-}
-
+morgan()
+app.use(morgan())
 app.use(express.json())
-
-app.use(requestLogger)
-
-var requestTime = function (req, res, next) {
-  req.requestTime = new Date();
-  next();
-};
-
-app.use(requestTime);
-app.use(morgan('combined'))
 
 app.get('/', function (req, res) {
   res.send('hello, world!')
@@ -76,6 +47,8 @@ const generateId = () => {
     : 0
   return maxId + 1
 }
+
+
 
 app.post('/api/persons', (request, response) => {
   const body = request.body
