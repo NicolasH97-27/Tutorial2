@@ -23,12 +23,12 @@ let notes = [
   }
 ]
 
-morgan(function (tokens, req, res) {
+const funcion = morgan(function (tokens, req, res) {
   return 'nikito '
 })
 
-morgan()
-app.use(morgan())
+
+app.use(funcion)
 app.use(express.json())
 
 app.get('/', function (req, res) {
