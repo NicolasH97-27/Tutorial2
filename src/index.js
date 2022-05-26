@@ -27,7 +27,7 @@ morgan(function (tokens, req, res) {
   return 'nikito '
 })
 
-morgan()
+
 app.use(morgan())
 app.use(express.json())
 
