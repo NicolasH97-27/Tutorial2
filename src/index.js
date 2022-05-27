@@ -1,6 +1,6 @@
+//ANOTAR CAMBIOS
 const express = require('express')
 const app = express()
-var morgan = require('morgan')
 
 let notes = [
   {
@@ -23,22 +23,20 @@ let notes = [
   }
 ]
 
-const funcion = morgan(function (tokens, req, res) {
-  return 'nikito '
-})
+const requestLogger = (request, response, next) => {
+  console.log('Method:', request.method)
+  console.log('Path:  ', request.path)
+  console.log('Body:  ', request.body)
+  console.log('---')
+  next()
+}
 
-
-app.use(funcion)
 app.use(express.json())
 
-app.get('/', function (req, res) {
-  res.send('hello, world!')
-})
+app.use(requestLogger)
 
-app.get('/info', (req, res) => {
-  var id = generateId()
-  
-  res.send('phone has info for '+id+' people <br><br>'+' el tiempo es '+ req.requestTime)
+app.get('/', (req, res) => {
+  res.send('<h1>Hello World!</h1>')
 })
 
 const generateId = () => {
@@ -48,9 +46,7 @@ const generateId = () => {
   return maxId + 1
 }
 
-
-
-app.post('/api/persons', (request, response) => {
+app.post('/api/notes', (request, response) => {
   const body = request.body
 
   if (!body.content) {
@@ -69,22 +65,20 @@ app.post('/api/persons', (request, response) => {
   notes = notes.concat(note)
 
   response.json(note)
-}) 
+})
 
-app.get('/api/persons', (req, res) => {
-  
-  
+app.get('/api/notes', (req, res) => {
   res.json(notes)
 })
 
-app.delete('/api/persons/:id', (request, response) => { 
+app.delete('/api/notes/:id', (request, response) => { 
   const id = Number(request.params.id)
   notes = notes.filter(note => note.id !== id)
 
   response.status(204).end()
 })
 
-app.get('/api/persons/:id', (request, response) => {
+app.get('/api/notes/:id', (request, response) => {
   const id = Number(request.params.id)
   const note = notes.find(note => note.id === id)
 
@@ -101,7 +95,7 @@ const unknownEndpoint = (request, response) => {
 
 app.use(unknownEndpoint)
 
-const PORT = 3001
+const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
