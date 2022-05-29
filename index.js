@@ -1,6 +1,10 @@
-//ANOTAR CAMBIOS
 const express = require('express')
 const app = express()
+const cors = require('cors')
+
+app.use(cors())
+
+app.use(express.static('build'))
 
 let notes = [
   {
@@ -17,7 +21,7 @@ let notes = [
   },
   {
     id: 3,
-    content: "GET and POST are the most important methods of HTTP protocol",
+    content: "Ge and POST are the most important methods of HTTP protocol",
     date: "2022-01-10T19:20:14.298Z",
     important: true
   }
@@ -29,7 +33,7 @@ const requestLogger = (request, response, next) => {
   console.log('Body:  ', request.body)
   console.log('---')
   next()
-}
+} // esto es medio raro es todo de express parece
 
 app.use(express.json())
 
@@ -71,7 +75,10 @@ app.get('/api/notes', (req, res) => {
   res.json(notes)
 })
 
-app.delete('/api/notes/:id', (request, response) => { 
+app.delete('/api/notes/:id', (request, response) => {
+  
+  //Podemos definir parámetros para rutas en express usando la sintaxis de dos puntos:
+  
   const id = Number(request.params.id)
   notes = notes.filter(note => note.id !== id)
 
@@ -95,7 +102,7 @@ const unknownEndpoint = (request, response) => {
 
 app.use(unknownEndpoint)
 
-const PORT = process.env.PORT || 3001
+const PORT = 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })

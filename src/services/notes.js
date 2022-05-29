@@ -1,8 +1,6 @@
 import axios from 'axios'
 const baseUrl = 'http://localhost:3001/api/notes'
-const cors = require('cors')
 
-app.use(cors())
 const getAll = () => {
     const request = axios.get(baseUrl)
     return request.then(response => {
@@ -26,3 +24,4 @@ const create = newObject => {
                     //podemos escribir la definición del objeto con una sintaxis más compacta: {getAll,create,update}
     update: update 
   }
+  

@@ -1401,4 +1401,23 @@ Content-Type: application/json
   "date": "2022-01-10T17:30:31.098Z",
   "important": true
 }
+-*------------------------------------------------------------------------------
+
+//FLACO USO HERUKO AAHORA, CREAS "HEROKU CREATE" EN LA TERMINAL.
+//ACA VAS A TENER EL SERVER https://frozen-depths-97473.herokuapp.com/
+//EL PROCFILE (TE DETONA EN EL PACKAGE.JSON) EL START Y RUNEA EN LA WEB.
+//heroku activa el servidor en la web si hay algun problema entonces pone heroku -log o algo asi y te va a decir.
+//Otra cosa:
+arriba modifique esto :
+
+const PORT = process.env.PORT || 3001
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`)
+})
+//para el heroku
+*******************
+//para borrar archivos git(y los commmits) tenes que ir a la carptea de proyecto y mostrar archivos ocultos
+//y ahi esta, borralos y listo
+**********************************
+en la terminal al crear el run build, me pidio hacer cp -r build ../../../osa3/notes-backend
 */
