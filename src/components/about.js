@@ -1420,4 +1420,28 @@ app.listen(PORT, () => {
 //y ahi esta, borralos y listo
 **********************************
 en la terminal al crear el run build, me pidio hacer cp -r build ../../../osa3/notes-backend
+
+*********************************************************************************************
+debuuger de chrome para node
+node --inspect index.js en la terminal y despues abris la consola te va a aparecer
+el signito de node
+
+MONGO DJ:
+
+Naturalmente, puede instalar y ejecutar MongoDB en su propia computadora. 
+Sin embargo, Internet también está lleno de servicios de base de datos de Mongo que puede utilizar. 
+Nuestro proveedor preferido de MongoDB en este curso será MongoDB Atlas.
+
+se crea el cluster, se inicializa un nuevo usuario en la pestaña de database access
+luego, se a la pesta de network y permitir que se conecte cualquier ip.
+
+mongoose:
+
+se instala en la terminal "npm i mongoose"
+
+""Solo una vez que se haya verificado que todo funciona en el backend,
+ es una buena idea probar que el frontend funciona con el backend. 
+ Es muy ineficiente probar cosas exclusivamente a través del frontend.""
+
+ 
 */
